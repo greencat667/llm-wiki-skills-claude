@@ -1,8 +1,8 @@
 # LLM Wiki — Schema & Maintenance Skills
 
-A schema and two Claude Cowork scheduled-task templates for running a personal "second brain" wiki that an AI assistant maintains for you, rather than one you maintain by hand.
+A schema and three Claude Cowork scheduled-task templates for running a personal "second brain" wiki that an AI assistant maintains for you, rather than one you maintain by hand.
 
-This isn't a wiki app. It's a folder convention plus an instruction file ([`SCHEMA.md`](SCHEMA.md)) that tells an assistant how to read, write, and maintain a `research/` folder of markdown pages — and two periodic tasks that keep it honest over time instead of slowly rotting.
+This isn't a wiki app. It's a folder convention plus an instruction file ([`SCHEMA.md`](SCHEMA.md)) that tells an assistant how to read, write, and maintain a `research/` folder of markdown pages — and three periodic tasks that feed it and keep it honest over time instead of slowly rotting.
 
 ## The idea
 
@@ -19,8 +19,9 @@ Three things compete for the same kind of note, and conflating them is what make
 ## What's in this repo
 
 - [`SCHEMA.md`](SCHEMA.md) — the wiki convention itself. Read by an assistant at the start of any session touching `research/`.
+- [`skills/session-capture/`](skills/session-capture/SKILL.md) — periodic archive of chat sessions into `research/raw/sessions/` as portable markdown, so a future model or a different assistant can read them. This is what feeds the other two.
+- [`skills/wiki-ripple-recommender/`](skills/wiki-ripple-recommender/SKILL.md) — periodic scan of newly captured raw material (session captures, inbox digests), recommending what's durable enough to promote into the wiki. Recommendations only — it never writes wiki pages itself.
 - [`skills/wiki-lint/`](skills/wiki-lint/SKILL.md) — periodic maintenance pass: contradictions, stale claims, orphan pages, broken links, data gaps. Auto-fixes only the mechanical, judgment-free issues; everything else goes in a report for you to decide.
-- [`skills/wiki-ripple-recommender/`](skills/wiki-ripple-recommender/SKILL.md) — periodic scan of newly captured raw material, recommending what's durable enough to promote into the wiki. Recommendations only — it never writes wiki pages itself.
 
 ## Setup
 
@@ -30,11 +31,11 @@ Three things compete for the same kind of note, and conflating them is what make
 
 1. Create a `research/` folder with `raw/`, `inbox/`, and `wiki/` subfolders (see `SCHEMA.md` for the full layout), and copy `SCHEMA.md` in at the top level.
 2. Fill in `SCHEMA.md`'s **✏️ Current territories** section once you've used it for a while — leave it as the placeholder to start.
-3. Copy each skill's `SKILL.md` into its own folder under your scheduled-tasks directory, fill in its ✏️ sections, and create the two scheduled tasks (lint monthly, recommend weekly are reasonable defaults).
+3. Copy each skill's `SKILL.md` into its own folder under your scheduled-tasks directory, fill in its ✏️ sections, and create the three scheduled tasks (capture daily, recommend weekly, lint monthly are reasonable defaults).
 
 ## Using this with other AI assistants
 
-Nothing here is Claude-specific — `SCHEMA.md` and both skill files are plain instructions for whatever assistant you're using. To set this up with ChatGPT or another assistant, give it this repo's URL (or paste in the files) and ask it to get it working using that assistant's own scheduling mechanism.
+`SCHEMA.md`, `wiki-lint`, and `wiki-ripple-recommender` are plain instructions with nothing Claude-specific in them. `session-capture` is the exception — it needs a way to list and read your recent chat sessions, which on Claude is a specific pair of tools; on another assistant you'll need whatever plays that role there (an exported chat history, that assistant's own sessions API, or manually pasted transcripts). See the note in [`skills/session-capture/SKILL.md`](skills/session-capture/SKILL.md). To use any of these with ChatGPT or another assistant, give it this repo's URL (or paste in the files) and ask it to get it working using that assistant's own scheduling mechanism.
 
 ## License
 
